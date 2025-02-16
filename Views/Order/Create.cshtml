@@ -1,0 +1,45 @@
+﻿@model Order
+
+@{
+    ViewBag.Title = "Make an Order";
+    Layout = "_Layout";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="GuestName" class="control-label"></label>
+        <input asp-for="GuestName" class="form-control" />
+        <span asp-validation-for="GuestName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="GuestEmail" class="control-label"></label>
+        <input asp-for="GuestEmail" class="form-control" />
+        <span asp-validation-for="GuestEmail" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="productIds" class="control-label">Products</label>
+        <select id="productIds" name="productIds" class="form-control" multiple>
+            @foreach (var product in ViewBag.Products)
+            {
+                <option value="@product.Value">@product.Text</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="quantities" class="control-label">Quantity</label>
+        <input type="number" id="quantities" name="quantities" class="form-control" multiple />
+    </div>
+    <br/>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a asp-action="Index" class="btn btn-warning">Cancel</a>
+    </div>
+</form>
+
+
+@section Scripts 
+{
+    <partial name="_ValidationScriptsPartial" />
+}

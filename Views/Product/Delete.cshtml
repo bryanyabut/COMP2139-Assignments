@@ -1,0 +1,45 @@
+﻿@model Product
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div>
+    <h4>Product</h4>
+    <hr/>
+    
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ProductName)
+        </dt>
+        <dt class="col-sm-2">
+            @Html.DisplayFor(model => model.ProductName)
+        </dt>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ProductDescription)
+        </dt>
+        <dt class="col-sm-2">
+            @Html.DisplayFor(model => model.ProductDescription)
+        </dt>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ProductPrice)
+        </dt>
+        <dt class="col-sm-2">
+            @Html.DisplayFor(model => model.ProductPrice)
+        </dt>
+        
+    </dl>
+    
+    <form asp-action="Delete" method="post">
+        @Html.HiddenFor(model => model.ProductId)
+        <input type="submit" value="Delete" class="btn btn-danger"/>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

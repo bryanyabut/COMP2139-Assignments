@@ -1,0 +1,58 @@
+﻿@model Product
+
+@{
+    ViewBag.Title = "Details of Product";
+    Layout = "_Layout";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="card">
+    <div class="card-body">
+        <h4>Product</h4>
+        <hr/>
+
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ProductName)
+            </dt>
+            <dt class="col-sm-2">
+                @Html.DisplayFor(model => model.ProductName)
+            </dt>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ProductDescription)
+            </dt>
+            <dt class="col-sm-2">
+                @Html.DisplayFor(model => model.ProductDescription)
+            </dt>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ProductPrice)
+            </dt>
+            <dt class="col-sm-2">
+                @Html.DisplayFor(model => model.ProductPrice)
+            </dt>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ProductQuantity)
+            </dt>
+            <dt class="col-sm-2">
+                @Html.DisplayFor(model => model.ProductQuantity)
+            </dt>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.LowStockThreshold)
+            </dt>
+            <dt class="col-sm-2">
+                @Html.DisplayFor(model => model.LowStockThreshold)
+            </dt>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Categories.CategoryName)
+            </dt>
+            <dt class="col-sm-2">
+                @Html.DisplayFor(model => model.Categories.CategoryName)
+            </dt>
+            
+        </dl>
+        <a asp-action="Edit" asp-route-id="@Model.ProductId" class="btn btn-primary">Edit</a>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </div>
+</div>
+
