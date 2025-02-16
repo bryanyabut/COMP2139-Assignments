@@ -59,7 +59,7 @@ namespace Inventory_Management.Controllers
                 order.OrderDate = DateTime.UtcNow; // Set the order date to the current date
                 order.TotalPrice = 0; // Initialize the total price to 0
                 _context.Orders.Add(order); // Add the order to the database
-                _context.SaveChanges(); // Save changes to the database
+                _context.SaveChanges(); // Save changes to the database to get the order id
 
                 // Create a linked list to store the order products
                 var orderProducts = new LinkedList<OrderProduct>();
@@ -74,7 +74,7 @@ namespace Inventory_Management.Controllers
                         // Create a new order product
                         var orderProduct = new OrderProduct
                         {
-                            // Set the order id, product id, and quantity
+                            // Set the current order id, product id, and quantity
                             OrderId = order.OrderId,
                             ProductId = productIds[i],
                             Quantity = quantities[i]
@@ -88,7 +88,7 @@ namespace Inventory_Management.Controllers
                     }
                 }
 
-                // Save changes to the database
+                // Iterates through the linked list of order products
                 foreach (var orderProduct in orderProducts)
                 {
                     _context.OrdersProducts.Add(orderProduct);

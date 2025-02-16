@@ -273,3 +273,4 @@ C:\Users\bryan\RiderProjects\Assignments\Assignment01\Inventory-Management\bin\D
 C:\Users\bryan\RiderProjects\Assignments\Assignment01\Inventory-Management\bin\Debug\net8.0\Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore.dll
 C:\Users\bryan\RiderProjects\Assignments\Assignment01\Inventory-Management\bin\Debug\net8.0\Microsoft.AspNetCore.Metadata.dll
 C:\Users\bryan\RiderProjects\Assignments\Assignment01\Inventory-Management\bin\Debug\net8.0\Microsoft.JSInterop.dll
+C:\Users\bryan\RiderProjects\Assignments\Assignment01\Inventory-Management\obj\Debug\net8.0\Inventory-Management.sourcelink.json

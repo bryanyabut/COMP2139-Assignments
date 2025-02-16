@@ -22,7 +22,7 @@ namespace Inventory_Management.Controllers
         }
 
         [HttpGet]
-// GET: ProductController
+        // GET: ProductController
         public async Task<IActionResult> Index(string search, decimal? minPrice, decimal? maxPrice, string sortOrder)
         {
             // get product from database
@@ -43,15 +43,15 @@ namespace Inventory_Management.Controllers
             }
 
             // sort products based on sortOrder
-            if (sortOrder == "name_desc")
+            if (sortOrder == "descending-name")
             {
                 products = products.OrderByDescending(p => p.ProductName).ToList();
             }
-            else if (sortOrder == "price_asc")
+            else if (sortOrder == "ascending-price")
             {
                 products = products.OrderBy(p => p.ProductPrice).ToList();
             }
-            else if (sortOrder == "price_desc")
+            else if (sortOrder == "descending-price")
             {
                 products = products.OrderByDescending(p => p.ProductPrice).ToList();
             }
