@@ -31,7 +31,7 @@ namespace Inventory_Management.Controllers
             var orders = _context.Orders
                 .Include(o => o.OrderProducts)
                 .ThenInclude(p => p.Products)
-                .FirstOrDefaultAsync(o => o.OrderId == id);
+                .FirstOrDefault(o => o.OrderId == id);
             if (orders == null)
             {
                 return NotFound();

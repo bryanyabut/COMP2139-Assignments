@@ -109,7 +109,7 @@ namespace Inventory_Management.Controllers
         }
 
         // GET: CategoryController/Delete/5
-        public ActionResult Delete(int id)
+        public IActionResult Delete(int id)
         {
             var category = _context.Categories.FirstOrDefault(c => c.CategoryId == id);
             if (category == null)
@@ -122,7 +122,7 @@ namespace Inventory_Management.Controllers
         // POST: CategoryController/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public IActionResult Delete(int id, IFormCollection collection)
         {
             var category = _context.Categories.Find(id);
             if (category == null)

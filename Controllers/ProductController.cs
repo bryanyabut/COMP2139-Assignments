@@ -10,11 +10,14 @@ namespace Inventory_Management.Controllers
 {
     public class ProductController : Controller
     {
+        // allows the controller to interact with the database
         private readonly InventoryDbContext _context;
         // Add a logger to the controller
         // used to log information, warnings, and errors
         private readonly ILogger<ProductController> _logger;
 
+        // Constructor
+        // Dependency injection is used to inject the InventoryDbContext and ILogger into the controller
         public ProductController(InventoryDbContext context, ILogger<ProductController> logger)
         {
             _context = context;
