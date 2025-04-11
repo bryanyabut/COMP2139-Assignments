@@ -16,22 +16,22 @@ namespace Inventory_Management.Controllers
         }
 
         // GET: OrderController
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var orders = _context.Orders
+            var orders = await _context.Orders
                 .Include(o => o.OrderProducts)
                 .ThenInclude(p => p.Products)
-                .ToList();
+                .ToListAsync();
             return View(orders);
         }
 
         // GET: OrderController/Details/5
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            var orders = _context.Orders
+            var orders = await _context.Orders
                 .Include(o => o.OrderProducts)
                 .ThenInclude(p => p.Products)
-                .FirstOrDefault(o => o.OrderId == id);
+                .FirstOrDefaultAsync(o => o.OrderId == id);
             if (orders == null)
             {
                 return NotFound();
@@ -41,16 +41,16 @@ namespace Inventory_Management.Controllers
         }
 
         // GET: OrderController/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewBag.Products = new SelectList(_context.Products, "ProductId", "ProductName");
+            ViewBag.Products = new SelectList(await _context.Products.ToListAsync(), "ProductId", "ProductName");
             return View();
         }
 
         // POST: OrderController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Order order, int[] productIds, int[] quantities)
+        public async Task<IActionResult> Create(Order order, int[] productIds, int[] quantities)
         {
             // [ValidateAntiForgeryToken] helps prevent CSRF attacks
             // Check if the model is valid
@@ -59,7 +59,7 @@ namespace Inventory_Management.Controllers
                 order.OrderDate = DateTime.UtcNow; // Set the order date to the current date
                 order.TotalPrice = 0; // Initialize the total price to 0
                 _context.Orders.Add(order); // Add the order to the database
-                _context.SaveChanges(); // Save changes to the database to get the order id
+                await _context.SaveChangesAsync(); // Save changes to the database to get the order id
 
                 // Create a linked list to store the order products
                 var orderProducts = new LinkedList<OrderProduct>();
@@ -68,7 +68,7 @@ namespace Inventory_Management.Controllers
                 for (int i = 0; i < productIds.Length; i++)
                 {
                     // Find the product with the specified id
-                    var product = _context.Products.Find(productIds[i]);
+                    var product = await _context.Products.FindAsync(productIds[i]);
                     if (product != null)
                     {
                         // Create a new order product
@@ -95,25 +95,25 @@ namespace Inventory_Management.Controllers
                 }
 
                 // Save changes to the database
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 // Redirect to the index page
                 return RedirectToAction("Index");
             }
 
             // Set the view bag to the list of products
-            ViewBag.Products = new SelectList(_context.Products, "ProductId", "ProductName");
+            ViewBag.Products = new SelectList(await _context.Products.ToListAsync(), "ProductId", "ProductName");
             // Return the view with the order
             return View(order);
         }
 
         // GET: OrderController/Delete/5
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             // Find the order with the specified id
-            var order = _context.Orders
+            var order = await _context.Orders
                 .Include(op => op.OrderProducts)
                 .ThenInclude(p => p.Products)
-                .FirstOrDefault(o => o.OrderId == id);
+                .FirstOrDefaultAsync(o => o.OrderId == id);
             // Check if the order is null
             if (order == null)
             {
@@ -127,11 +127,11 @@ namespace Inventory_Management.Controllers
         // POST: OrderController/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var order = _context.Orders
+            var order = await _context.Orders
                 .Include(o => o.OrderProducts)
-                .FirstOrDefault(o => o.OrderId == id);
+                .FirstOrDefaultAsync(o => o.OrderId == id);
 
             if (order != null)
             {
@@ -142,7 +142,7 @@ namespace Inventory_Management.Controllers
 
                 // Remove the order
                 _context.Orders.Remove(order);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
 
             return RedirectToAction("Index");

@@ -17,17 +17,17 @@ namespace Inventory_Management.Controllers
 
         [HttpGet]
         // GET: CategoryController
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var categories = _context.Categories.ToList();
+            var categories = await _context.Categories.ToListAsync();
             return View(categories);
         }
 
         [HttpGet]
         // GET: CategoryController/Details/5
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            var category = _context.Categories.FirstOrDefault(c => c.CategoryId == id);
+            var category =  await _context.Categories.FirstOrDefaultAsync(c => c.CategoryId == id);
             if (category == null)
             {
                 return NotFound();
@@ -38,7 +38,7 @@ namespace Inventory_Management.Controllers
 
         [HttpGet]
         // GET: CategoryController/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             return View();
         }
@@ -46,12 +46,12 @@ namespace Inventory_Management.Controllers
         // POST: CategoryController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Category category)
+        public async Task<IActionResult> Create(Category category)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(category);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             return View(category);
@@ -59,9 +59,9 @@ namespace Inventory_Management.Controllers
 
         [HttpGet]
         // GET: CategoryController/Edit/5
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var categories = _context.Categories.Find(id);
+            var categories = await _context.Categories.FindAsync(id);
             if (categories == null)
             {
                 return NotFound();
@@ -72,7 +72,7 @@ namespace Inventory_Management.Controllers
         // POST: CategoryController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, [Bind("CategoryId, CategoryName, CategoryDescription")] Category category)
+        public async Task<IActionResult> Edit(int id, [Bind("CategoryId, CategoryName, CategoryDescription")] Category category)
         {
             if (id != category.CategoryId)
             {
@@ -84,11 +84,11 @@ namespace Inventory_Management.Controllers
                 try
                 {
                     _context.Update(category);
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CategoryExists(category.CategoryId))
+                    if (!await CategoryExists(category.CategoryId))
                     {
                         return NotFound();
                     }
@@ -103,15 +103,15 @@ namespace Inventory_Management.Controllers
             return View(category);
         }
 
-        private bool CategoryExists(int id)
+        private async Task<bool> CategoryExists(int id)
         {
-            return _context.Categories.Any(e => e.CategoryId == id);
+            return await _context.Categories.AnyAsync(e => e.CategoryId == id);
         }
 
         // GET: CategoryController/Delete/5
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var category = _context.Categories.FirstOrDefault(c => c.CategoryId == id);
+            var category = await _context.Categories.FirstOrDefaultAsync(c => c.CategoryId == id);
             if (category == null)
             {
                 return NotFound();
@@ -122,15 +122,15 @@ namespace Inventory_Management.Controllers
         // POST: CategoryController/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id, IFormCollection collection)
+        public async Task<IActionResult> Delete(int id, IFormCollection collection)
         {
-            var category = _context.Categories.Find(id);
+            var category = await _context.Categories.FindAsync(id);
             if (category == null)
             {
                 return NotFound();
             }
             _context.Categories.Remove(category);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
     }
