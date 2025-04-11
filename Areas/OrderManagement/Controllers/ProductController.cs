@@ -1,13 +1,16 @@
 ﻿using Inventory_Management.data;
 using Inventory_Management.Models;
+using Inventory_Management.Areas.OrderManagement.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
-namespace Inventory_Management.Controllers
+namespace Inventory_Management.Areas.OrderManagement.Controllers
 {
+    [Area("OrderManagement")]
+    [Route("[area]/[controller]/[action]")]
     public class ProductController : Controller
     {
         // allows the controller to interact with the database
@@ -24,8 +27,10 @@ namespace Inventory_Management.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
+        
         // GET: ProductController
+        [HttpGet]
+        [Route("")]
         public async Task<IActionResult> Index(string search, decimal? minPrice, decimal? maxPrice, string sortOrder)
         {
             // get product from database
@@ -67,8 +72,10 @@ namespace Inventory_Management.Controllers
             return View(products);
         }
 
-        [HttpGet]
+        
         // GET: ProductController/Details/5
+        [HttpGet]
+        [Route("Details/{id:int}")]
         public async Task<IActionResult> Details(int id)
         {
             // get product from database
@@ -83,8 +90,10 @@ namespace Inventory_Management.Controllers
             return View(product);
         }
 
-        [HttpGet]
+        
         // GET: ProductController/Create
+        [HttpGet]
+        [Route("Create")]
         public async Task<IActionResult> Create()
         {
             ViewBag.Categories = new SelectList(await _context.Categories.ToListAsync(), "CategoryId", "CategoryName");
@@ -94,6 +103,7 @@ namespace Inventory_Management.Controllers
         // POST: ProductController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Create")]
         public async Task<IActionResult> Create(Product product)
         {
             // [ValidateAntiForgeryToken] helps prevent CSRF attacks
@@ -125,8 +135,10 @@ namespace Inventory_Management.Controllers
             return View(product);
         }
 
-        [HttpGet]
+        
         // GET: ProductController/Edit/5
+        [HttpGet]
+        [Route("Edit/{id:int}")]
         public async Task<IActionResult> Edit(int id)
         {
             var product = await _context.Products.FindAsync(id);
@@ -141,6 +153,7 @@ namespace Inventory_Management.Controllers
         // POST: ProductController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Edit/{id:int}")]
         public async Task<IActionResult> Edit(int id, [Bind("ProductId,ProductName,ProductDescription,ProductPrice,ProductQuantity,LowStockThreshold,CategoryId")] Product product)
         {
             if (id != product.ProductId)
@@ -177,6 +190,7 @@ namespace Inventory_Management.Controllers
         }
 
         [HttpGet]
+        [Route("Delete/{id:int}")]
         // GET: ProductController/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
@@ -191,6 +205,7 @@ namespace Inventory_Management.Controllers
         // POST: ProductController/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Route("Delete/{id:int}")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var product = await _context.Products.FindAsync(id);

@@ -1,11 +1,14 @@
 ﻿using Inventory_Management.data;
 using Inventory_Management.Models;
+using Inventory_Management.Areas.OrderManagement.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Inventory_Management.Controllers
+namespace Inventory_Management.Areas.OrderManagement.Controllers
 {
+    [Area("OrderManagement")]
+    [Route("[area]/[controller]/[action]")]
     public class CategoryController : Controller
     {
         private readonly InventoryDbContext _context;
@@ -15,16 +18,18 @@ namespace Inventory_Management.Controllers
             _context = context;
         }
 
-        [HttpGet]
         // GET: CategoryController
+        [HttpGet]
+        [Route("")]
         public async Task<IActionResult> Index()
         {
             var categories = await _context.Categories.ToListAsync();
             return View(categories);
         }
 
-        [HttpGet]
         // GET: CategoryController/Details/5
+        [HttpGet]
+        [Route("Details/{id}")]
         public async Task<IActionResult> Details(int id)
         {
             var category =  await _context.Categories.FirstOrDefaultAsync(c => c.CategoryId == id);
@@ -36,8 +41,9 @@ namespace Inventory_Management.Controllers
             return View(category);
         }
 
-        [HttpGet]
         // GET: CategoryController/Create
+        [HttpGet]
+        [Route("Create")]
         public async Task<IActionResult> Create()
         {
             return View();
@@ -46,6 +52,7 @@ namespace Inventory_Management.Controllers
         // POST: CategoryController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Create")]
         public async Task<IActionResult> Create(Category category)
         {
             if (ModelState.IsValid)
@@ -57,8 +64,9 @@ namespace Inventory_Management.Controllers
             return View(category);
         }
 
-        [HttpGet]
         // GET: CategoryController/Edit/5
+        [HttpGet]
+        [Route("Edit/{id}")]
         public async Task<IActionResult> Edit(int id)
         {
             var categories = await _context.Categories.FindAsync(id);
@@ -72,6 +80,7 @@ namespace Inventory_Management.Controllers
         // POST: CategoryController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Edit/{id}")]
         public async Task<IActionResult> Edit(int id, [Bind("CategoryId, CategoryName, CategoryDescription")] Category category)
         {
             if (id != category.CategoryId)
@@ -109,6 +118,8 @@ namespace Inventory_Management.Controllers
         }
 
         // GET: CategoryController/Delete/5
+        [HttpGet]
+        [Route("Delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             var category = await _context.Categories.FirstOrDefaultAsync(c => c.CategoryId == id);
@@ -120,6 +131,7 @@ namespace Inventory_Management.Controllers
         }
 
         // POST: CategoryController/Delete/5
+        [Route("Delete/{id}")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id, IFormCollection collection)

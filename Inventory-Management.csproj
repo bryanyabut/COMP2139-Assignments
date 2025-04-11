@@ -20,4 +20,42 @@
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\Order\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Order\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Order\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Order\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Category\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Category\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Category\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Category\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Category\index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Product\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Product\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Product\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Product\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Product\Index.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <AdditionalFiles Include="Areas\OrderManagement\Views\Category\Create.cshtml" />
+      <AdditionalFiles Include="Areas\OrderManagement\Views\Category\Delete.cshtml" />
+      <AdditionalFiles Include="Areas\OrderManagement\Views\Category\Details.cshtml" />
+      <AdditionalFiles Include="Areas\OrderManagement\Views\Category\Edit.cshtml" />
+      <AdditionalFiles Include="Areas\OrderManagement\Views\Category\index.cshtml" />
+      <AdditionalFiles Include="Areas\OrderManagement\Views\Order\Create.cshtml" />
+      <AdditionalFiles Include="Areas\OrderManagement\Views\Order\Delete.cshtml" />
+      <AdditionalFiles Include="Areas\OrderManagement\Views\Order\Details.cshtml" />
+      <AdditionalFiles Include="Areas\OrderManagement\Views\Order\Index.cshtml" />
+      <AdditionalFiles Include="Areas\OrderManagement\Views\Product\Create.cshtml" />
+      <AdditionalFiles Include="Areas\OrderManagement\Views\Product\Delete.cshtml" />
+      <AdditionalFiles Include="Areas\OrderManagement\Views\Product\Details.cshtml" />
+      <AdditionalFiles Include="Areas\OrderManagement\Views\Product\Edit.cshtml" />
+      <AdditionalFiles Include="Areas\OrderManagement\Views\Product\Index.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Areas\OrderManagement\Views\Shared\" />
+    </ItemGroup>
+
 </Project>

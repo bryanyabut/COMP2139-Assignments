@@ -1,4 +1,5 @@
 ﻿using Inventory_Management.Models;
+using Inventory_Management.Areas.OrderManagement.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Inventory_Management.data
@@ -9,10 +10,10 @@ namespace Inventory_Management.data
         {
         }
 
-        public DbSet<Models.Product> Products { get; set; }
-        public DbSet<Models.Order> Orders { get; set; }
-        public DbSet<Models.Category> Categories { get; set; }
-        public DbSet<Models.OrderProduct> OrdersProducts { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<OrderProduct> OrdersProducts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

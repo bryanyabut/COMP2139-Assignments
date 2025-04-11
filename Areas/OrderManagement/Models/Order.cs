@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Inventory_Management.Models
+namespace Inventory_Management.Areas.OrderManagement.Models
 {
     public class Order
     {
@@ -8,7 +8,9 @@ namespace Inventory_Management.Models
         public int OrderId { get; set; }
 
         [Required]
+        [Display(Name = "Order Number")]
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime OrderDate { get; set; }
 
         [Required]

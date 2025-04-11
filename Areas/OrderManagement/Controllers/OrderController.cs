@@ -1,11 +1,14 @@
 using Inventory_Management.data;
 using Inventory_Management.Models;
+using Inventory_Management.Areas.OrderManagement.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
-namespace Inventory_Management.Controllers
+namespace Inventory_Management.Areas.OrderManagement.Controllers
 {
+    [Area("OrderManagement")]
+    [Route("[area]/[controller]/[action]")]
     public class OrderController : Controller
     {
         private readonly InventoryDbContext _context;
@@ -14,8 +17,11 @@ namespace Inventory_Management.Controllers
         {
             _context = context;
         }
-
+        
         // GET: OrderController
+        [HttpGet]
+        [Route("")]
+        [Route("/OrderManagement/Order")]
         public async Task<IActionResult> Index()
         {
             var orders = await _context.Orders
@@ -26,6 +32,8 @@ namespace Inventory_Management.Controllers
         }
 
         // GET: OrderController/Details/5
+        [HttpGet]
+        [Route("Details/{id}")]
         public async Task<IActionResult> Details(int id)
         {
             var orders = await _context.Orders
@@ -41,6 +49,8 @@ namespace Inventory_Management.Controllers
         }
 
         // GET: OrderController/Create
+        [HttpGet]
+        [Route("Create")]
         public async Task<IActionResult> Create()
         {
             ViewBag.Products = new SelectList(await _context.Products.ToListAsync(), "ProductId", "ProductName");
@@ -50,6 +60,7 @@ namespace Inventory_Management.Controllers
         // POST: OrderController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Create")]
         public async Task<IActionResult> Create(Order order, int[] productIds, int[] quantities)
         {
             // [ValidateAntiForgeryToken] helps prevent CSRF attacks
@@ -107,6 +118,8 @@ namespace Inventory_Management.Controllers
         }
 
         // GET: OrderController/Delete/5
+        [HttpGet]
+        [Route("Delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             // Find the order with the specified id
@@ -127,6 +140,7 @@ namespace Inventory_Management.Controllers
         // POST: OrderController/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Route("Delete/{id}")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var order = await _context.Orders
