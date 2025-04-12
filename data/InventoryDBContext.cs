@@ -1,10 +1,11 @@
 ﻿using Inventory_Management.Models;
 using Inventory_Management.Areas.OrderManagement.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Inventory_Management.data
 {
-    public class InventoryDbContext : DbContext
+    public class InventoryDbContext : IdentityDbContext
     {
         public InventoryDbContext(DbContextOptions<InventoryDbContext> options) : base(options)
         {
@@ -17,6 +18,9 @@ namespace Inventory_Management.data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //Ensure Identity configuration and table are created
+            base.OnModelCreating(modelBuilder);
+            
             modelBuilder.Entity<OrderProduct>()
                 .HasOne(op => op.Orders)
                 .WithMany(o => o.OrderProducts)

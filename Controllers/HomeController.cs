@@ -28,4 +28,28 @@ public class HomeController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
+
+    public IActionResult NotFound(int statusCode)
+    {
+        if(statusCode == 404)
+        {
+            return View("NotFound");
+        }
+        else
+        {
+            return View("Error");
+        }
+    }
+
+    public IActionResult ServerError(int statusCode)
+    {
+        if (statusCode == 500)
+        {
+            return View("ServerError");
+        }
+        else
+        {
+            return View("Error");
+        }
+    }
 }

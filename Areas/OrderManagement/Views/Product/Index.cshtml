@@ -22,64 +22,45 @@
     </div>
 }
 
-<form asp-action="Index" method="get">
-    <h1>Search: </h1>
-    <div class="form-group">
-        <input type="text" name="search" value="@ViewData["CurrentFilter"]" class="form-control-sm" placeholder="Search by name"/>
-    </div>
-    <div class="form-group">
-        <input type="number" name="minPrice" class="form-control-sm" placeholder="Minimum Price" step="0.01"/>
-    </div>
-    <div class="form-group">
-        <input type="number" name="maxPrice" class="form-control-sm" placeholder="Maximum Price" step="0.01"/>
-    </div>
-    <div class="form-group">
-        <select name="sortOrder" class="form-control">
-            <option value="">Sort by</option>
-            <option value="descending-name">Name Descending</option>
-            <option value="ascending-price">Price Ascending</option>
-            <option value="descending-price">Price Descending</option>
-        </select>
-    </div>
-    <button type="submit" class="btn btn-primary">Search</button>
-    <a asp-action="Index" class="btn btn-secondary">Reset</a>
-</form>
-
-@if (Model.Any())
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Product Name</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Low Stock Threshold</th>
-                <th>Category</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var product in Model)
+<div>
+    <h3>Search Products</h3>
+    <div class="form-inline">
+        <input type="text" id="searchQuery" placeholder="Search by name" class="form-control mr-2" />
+        <select id="searchCategory" class="form-control mr-2">
+            <option value="">All Categories</option>
+            @foreach (var category in ViewBag.Categories)
             {
-                <tr>
-                    <td>@product.ProductName</td>
-                    <td>@product.ProductDescription</td>
-                    <td>@product.ProductPrice</td>
-                    <td>@product.ProductQuantity</td>
-                    <td>@product.LowStockThreshold</td>
-                    <td>@product.Categories.CategoryName</td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@product.ProductId" class="btn btn-sm btn-warning">Edit</a>
-                        <a asp-action="Details" asp-route-id="@product.ProductId" class="btn btn-sm btn-info">Details</a>
-                        <a asp-action="Delete" asp-route-id="@product.ProductId" class="btn btn-sm btn-danger">Delete</a>
-                    </td>
-                </tr>
+                <option value="@category.CategoryId">@category.CategoryName</option>
             }
-        </tbody>
-    </table>
-}
-else
-{
-    <p>No products available.</p>
+        </select>
+        <button id="searchButton" class="btn btn-primary">Search</button>
+    </div>
+</div>
+
+<div id="productList">
+    @await Html.PartialAsync("_ProductListPartial", Model)
+</div>
+
+@section Scripts {
+    <script>
+        $(document).on('click', '#searchButton', function () {
+            const query = $('#searchQuery').val();
+            const categoryId = $('#searchCategory').val();
+
+            $.ajax({
+                url: '/OrderManagement/Product/Search',
+                type: 'GET',
+                data: { query, categoryId },
+                beforeSend: function () {
+                    $('#productList').html('<div class="spinner-border"></div>');
+                },
+                success: function (data) {
+                    $('#productList').html(data);
+                },
+                error: function () {
+                    alert('Error fetching products.');
+                }
+            });
+        });
+    </script>
 }

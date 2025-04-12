@@ -56,11 +56,20 @@
     </main>
 </div>
 
+<div id="loader" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1050;">
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+
 <footer class="border-top footer text-muted">
     <div class="container">
         &copy; 2025 - DIGITS Inc assignment01 by Bryan Paul Yabut, 101407350 - <a asp-area="" asp-controller="Home" asp-action="About"><i class="fa-solid fa-circle-info"></i>About</a>
     </div>
 </footer>
+
+<script src="~/js/ajax.js" asp-append-version="true"></script>
+
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>

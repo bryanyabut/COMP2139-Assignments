@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "500 Internal Server Error";
+    Layout = "_Layout";
+}
+
+<div class="d-flex flex-column justify-content-center align-items-center vh-100 bg-light text-center">
+    <h1 class="display-4 text-danger">500</h1>
+    <h2 class="mb-4">Internal Server Error</h2>
+    <p class="mb-4">Something went wrong on our end. Please try again later.</p>
+    <a href="@Url.Action("Index", "Home")" class="btn btn-primary btn-lg">
+        <i class="fa-solid fa-house"></i> Go to Home
+    </a>
+</div>

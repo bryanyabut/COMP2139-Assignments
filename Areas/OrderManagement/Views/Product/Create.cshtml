@@ -49,9 +49,29 @@
 </form>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    <script>
+        $(document).on('submit', '#addProductForm', function (e) {
+            e.preventDefault();
+
+            const formData = $(this).serialize();
+
+            $.ajax({
+                url: '/OrderManagement/Product/AddProduct',
+                type: 'POST',
+                data: formData,
+                beforeSend: function () {
+                    $('#productList').html('<div class="spinner-border"></div>');
+                },
+                success: function (data) {
+                    $('#productList').html(data);
+                    $('#addProductForm')[0].reset();
+                },
+                error: function () {
+                    alert('Error adding product.');
+                }
+            });
+        });
+    </script>
 }
 
 

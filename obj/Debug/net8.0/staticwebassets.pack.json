@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Users\\bryan\\RiderProjects\\Assignments\\Assignment01\\Inventory-Management\\wwwroot\\js\\ajax.js",
+      "PackagePath": "staticwebassets\\js\\ajax.js"
+    },
+    {
       "Id": "C:\\Users\\bryan\\RiderProjects\\Assignments\\Assignment01\\Inventory-Management\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },

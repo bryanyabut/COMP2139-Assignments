@@ -12,18 +12,21 @@ namespace Inventory_Management.Areas.OrderManagement.Controllers
     public class OrderController : Controller
     {
         private readonly InventoryDbContext _context;
+        private readonly ILogger<OrderController> _logger;
 
-        public OrderController(InventoryDbContext context)
+        public OrderController(InventoryDbContext context, ILogger<OrderController> logger)
         {
             _context = context;
+            _logger = logger;
         }
-        
+
         // GET: OrderController
         [HttpGet]
         [Route("")]
         [Route("/OrderManagement/Order")]
         public async Task<IActionResult> Index()
         {
+            _logger.LogInformation("Fetching all orders.");
             var orders = await _context.Orders
                 .Include(o => o.OrderProducts)
                 .ThenInclude(p => p.Products)
@@ -36,12 +39,14 @@ namespace Inventory_Management.Areas.OrderManagement.Controllers
         [Route("Details/{id}")]
         public async Task<IActionResult> Details(int id)
         {
+            _logger.LogInformation("Fetching details for order with ID {OrderId}.", id);
             var orders = await _context.Orders
                 .Include(o => o.OrderProducts)
                 .ThenInclude(p => p.Products)
                 .FirstOrDefaultAsync(o => o.OrderId == id);
             if (orders == null)
             {
+                _logger.LogWarning("Order with ID {OrderId} not found.", id);
                 return NotFound();
             }
 
@@ -53,6 +58,7 @@ namespace Inventory_Management.Areas.OrderManagement.Controllers
         [Route("Create")]
         public async Task<IActionResult> Create()
         {
+            _logger.LogInformation("Navigating to Create Order view.");
             ViewBag.Products = new SelectList(await _context.Products.ToListAsync(), "ProductId", "ProductName");
             return View();
         }
@@ -63,57 +69,53 @@ namespace Inventory_Management.Areas.OrderManagement.Controllers
         [Route("Create")]
         public async Task<IActionResult> Create(Order order, int[] productIds, int[] quantities)
         {
-            // [ValidateAntiForgeryToken] helps prevent CSRF attacks
-            // Check if the model is valid
             if (ModelState.IsValid)
             {
-                order.OrderDate = DateTime.UtcNow; // Set the order date to the current date
-                order.TotalPrice = 0; // Initialize the total price to 0
-                _context.Orders.Add(order); // Add the order to the database
-                await _context.SaveChangesAsync(); // Save changes to the database to get the order id
-
-                // Create a linked list to store the order products
-                var orderProducts = new LinkedList<OrderProduct>();
-
-                // Loop through the product ids and quantities
-                for (int i = 0; i < productIds.Length; i++)
+                _logger.LogInformation("Creating a new order for guest {GuestName}.", order.GuestName);
+                try
                 {
-                    // Find the product with the specified id
-                    var product = await _context.Products.FindAsync(productIds[i]);
-                    if (product != null)
+                    order.OrderDate = DateTime.UtcNow;
+                    order.TotalPrice = 0;
+                    _context.Orders.Add(order);
+                    await _context.SaveChangesAsync();
+
+                    var orderProducts = new LinkedList<OrderProduct>();
+                    for (int i = 0; i < productIds.Length; i++)
                     {
-                        // Create a new order product
-                        var orderProduct = new OrderProduct
+                        var product = await _context.Products.FindAsync(productIds[i]);
+                        if (product != null)
                         {
-                            // Set the current order id, product id, and quantity
-                            OrderId = order.OrderId,
-                            ProductId = productIds[i],
-                            Quantity = quantities[i]
-                        };
-                        // Calculate the total price of the order
-                        order.TotalPrice += product.ProductPrice * quantities[i];
-                        // Update the product quantity
-                        product.ProductQuantity -= quantities[i];
-                        // Add the order product to the linked list
-                        orderProducts.AddLast(orderProduct);
+                            var orderProduct = new OrderProduct
+                            {
+                                OrderId = order.OrderId,
+                                ProductId = productIds[i],
+                                Quantity = quantities[i]
+                            };
+                            order.TotalPrice += product.ProductPrice * quantities[i];
+                            product.ProductQuantity -= quantities[i];
+                            orderProducts.AddLast(orderProduct);
+                        }
                     }
-                }
 
-                // Iterates through the linked list of order products
-                foreach (var orderProduct in orderProducts)
+                    foreach (var orderProduct in orderProducts)
+                    {
+                        _context.OrdersProducts.Add(orderProduct);
+                    }
+
+                    await _context.SaveChangesAsync();
+                    _logger.LogInformation("Order for guest {GuestName} created successfully.", order.GuestName);
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
                 {
-                    _context.OrdersProducts.Add(orderProduct);
+                    _logger.LogError(ex, "An error occurred while creating the order for guest {GuestName}.",
+                        order.GuestName);
+                    throw;
                 }
-
-                // Save changes to the database
-                await _context.SaveChangesAsync();
-                // Redirect to the index page
-                return RedirectToAction("Index");
             }
 
-            // Set the view bag to the list of products
+            _logger.LogWarning("Failed to create order due to invalid model state.");
             ViewBag.Products = new SelectList(await _context.Products.ToListAsync(), "ProductId", "ProductName");
-            // Return the view with the order
             return View(order);
         }
 
@@ -122,18 +124,17 @@ namespace Inventory_Management.Areas.OrderManagement.Controllers
         [Route("Delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            // Find the order with the specified id
+            _logger.LogInformation("Fetching order with ID {OrderId} for deletion.", id);
             var order = await _context.Orders
                 .Include(op => op.OrderProducts)
                 .ThenInclude(p => p.Products)
                 .FirstOrDefaultAsync(o => o.OrderId == id);
-            // Check if the order is null
             if (order == null)
             {
+                _logger.LogWarning("Order with ID {OrderId} not found for deletion.", id);
                 return NotFound();
             }
 
-            // Return the view with the order
             return View(order);
         }
 
@@ -143,20 +144,32 @@ namespace Inventory_Management.Areas.OrderManagement.Controllers
         [Route("Delete/{id}")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            _logger.LogInformation("Deleting order with ID {OrderId}.", id);
             var order = await _context.Orders
                 .Include(o => o.OrderProducts)
                 .FirstOrDefaultAsync(o => o.OrderId == id);
 
             if (order != null)
             {
-                // Remove associated OrderProducts
-                var orderProducts = _context.OrdersProducts
-                    .Where(op => op.OrderId == id);
-                _context.OrdersProducts.RemoveRange(orderProducts);
+                try
+                {
+                    var orderProducts = _context.OrdersProducts
+                        .Where(op => op.OrderId == id);
+                    _context.OrdersProducts.RemoveRange(orderProducts);
 
-                // Remove the order
-                _context.Orders.Remove(order);
-                await _context.SaveChangesAsync();
+                    _context.Orders.Remove(order);
+                    await _context.SaveChangesAsync();
+                    _logger.LogInformation("Order with ID {OrderId} deleted successfully.", id);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "An error occurred while deleting the order with ID {OrderId}.", id);
+                    throw;
+                }
+            }
+            else
+            {
+                _logger.LogWarning("Order with ID {OrderId} not found during deletion.", id);
             }
 
             return RedirectToAction("Index");

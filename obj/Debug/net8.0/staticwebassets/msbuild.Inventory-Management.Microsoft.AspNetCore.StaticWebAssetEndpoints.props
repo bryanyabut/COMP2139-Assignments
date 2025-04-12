@@ -36,6 +36,18 @@
       <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-y1KSt1Cn3sKDMjiDnk9q8g8YVswlNaklW6Jbtn5fnc4="}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"1138"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022y1KSt1Cn3sKDMjiDnk9q8g8YVswlNaklW6Jbtn5fnc4=\u0022"},{"Name":"Last-Modified","Value":"Tue, 11 Feb 2025 07:51:14 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/Inventory-Management/js/ajax.js">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\ajax.js'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-Qu3oJNPDRANvirk1pF5wZWQr7PnLviyHk2l\u002Bg6s7PbA="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"591"},{"Name":"Content-Type","Value":"text/javascript"},{"Name":"ETag","Value":"\u0022Qu3oJNPDRANvirk1pF5wZWQr7PnLviyHk2l\u002Bg6s7PbA=\u0022"},{"Name":"Last-Modified","Value":"Fri, 11 Apr 2025 21:32:33 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/Inventory-Management/js/ajax.ysjwlj64ao.js">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\ajax.js'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"ysjwlj64ao"},{"Name":"integrity","Value":"sha256-Qu3oJNPDRANvirk1pF5wZWQr7PnLviyHk2l\u002Bg6s7PbA="},{"Name":"label","Value":"_content/Inventory-Management/js/ajax.js"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"591"},{"Name":"Content-Type","Value":"text/javascript"},{"Name":"ETag","Value":"\u0022Qu3oJNPDRANvirk1pF5wZWQr7PnLviyHk2l\u002Bg6s7PbA=\u0022"},{"Name":"Last-Modified","Value":"Fri, 11 Apr 2025 21:32:33 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/Inventory-Management/js/site.js">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\site.js'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
