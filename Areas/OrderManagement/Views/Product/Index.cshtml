@@ -5,9 +5,12 @@
     Layout = "_Layout";
 }
 
-<h2>@ViewData["Title"]</h2>
-
-<a asp-action="Create" class="btn btn-primary">Create New Product</a>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>@ViewData["Title"]</h2>
+    <a asp-action="Create" class="btn btn-success">
+        <i class="fa-solid fa-plus"></i> Create New Product
+    </a>
+</div>
 
 @if (ViewBag.LowStockProducts != null && ViewBag.LowStockProducts.Count > 0)
 {
@@ -22,18 +25,28 @@
     </div>
 }
 
-<div>
-    <h3>Search Products</h3>
-    <div class="form-inline">
-        <input type="text" id="searchQuery" placeholder="Search by name" class="form-control mr-2" />
-        <select id="searchCategory" class="form-control mr-2">
-            <option value="">All Categories</option>
-            @foreach (var category in ViewBag.Categories)
-            {
-                <option value="@category.CategoryId">@category.CategoryName</option>
-            }
-        </select>
-        <button id="searchButton" class="btn btn-primary">Search</button>
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Search Products</h5>
+        <div class="row g-3">
+            <div class="col-md-6">
+                <input type="text" id="searchQuery" placeholder="Search by name" class="form-control" />
+            </div>
+            <div class="col-md-4">
+                <select id="searchCategory" class="form-select">
+                    <option value="">All Categories</option>
+                    @foreach (var category in ViewBag.Categories)
+                    {
+                        <option value="@category.CategoryId">@category.CategoryName</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button id="searchButton" class="btn btn-primary w-100">
+                    <i class="fa-solid fa-search"></i> Search
+                </button>
+            </div>
+        </div>
     </div>
 </div>
 

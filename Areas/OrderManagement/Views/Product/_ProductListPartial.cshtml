@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Product>
 
-<table class="table">
-    <thead>
+<table class="table table-striped table-hover">
+    <thead class="table-dark">
     <tr>
         <th>Product Name</th>
         <th>Description</th>
@@ -14,16 +14,31 @@
     <tbody>
     @foreach (var product in Model)
     {
-        <tr>
+        <tr class="align-middle">
             <td>@product.ProductName</td>
             <td>@product.ProductDescription</td>
-            <td>@product.ProductPrice</td>
-            <td>@product.ProductQuantity</td>
+            <td>@string.Format("{0:C}", product.ProductPrice)</td>
+            <td>
+                @if (product.ProductQuantity <= product.LowStockThreshold)
+                {
+                    <span class="badge bg-danger">@product.ProductQuantity (Low Stock)</span>
+                }
+                else
+                {
+                    @product.ProductQuantity
+                }
+            </td>
             <td>@product.Categories?.CategoryName</td>
             <td>
-                <a asp-action="Edit" asp-route-id="@product.ProductId" class="btn btn-sm btn-primary">Edit</a>
-                <a asp-action="Details" asp-route-id="@product.ProductId" class="btn btn-sm btn-info">Details</a>
-                <a asp-action="Delete" asp-route-id="@product.ProductId" class="btn btn-sm btn-danger">Delete</a>
+                <a asp-action="Edit" asp-route-id="@product.ProductId" class="btn btn-sm btn-primary">
+                    <i class="fa-solid fa-pen"></i> Edit
+                </a>
+                <a asp-action="Details" asp-route-id="@product.ProductId" class="btn btn-sm btn-info">
+                    <i class="fa-solid fa-info-circle"></i> Details
+                </a>
+                <a asp-action="Delete" asp-route-id="@product.ProductId" class="btn btn-sm btn-danger">
+                    <i class="fa-solid fa-trash"></i> Delete
+                </a>
             </td>
         </tr>
     }
