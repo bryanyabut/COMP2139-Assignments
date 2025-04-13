@@ -1,6 +1,7 @@
 ﻿using Inventory_Management.data;
 using Inventory_Management.Models;
 using Inventory_Management.Areas.OrderManagement.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ namespace Inventory_Management.Areas.OrderManagement.Controllers
 {
     [Area("OrderManagement")]
     [Route("[area]/[controller]/[action]")]
+    [Authorize]
     public class CategoryController : Controller
     {
         private readonly InventoryDbContext _context;
@@ -50,6 +52,7 @@ namespace Inventory_Management.Areas.OrderManagement.Controllers
         // GET: CategoryController/Create
         [HttpGet]
         [Route("Create")]
+        [Authorize(Roles = "SuperAdmin, Admin")]
         public IActionResult Create()
         {
             _logger.LogInformation("Navigating to Create Category view.");
@@ -60,6 +63,7 @@ namespace Inventory_Management.Areas.OrderManagement.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Create")]
+        [Authorize(Roles = "SuperAdmin, Admin")]
         public async Task<IActionResult> Create(Category category)
         {
             if (ModelState.IsValid)
@@ -78,6 +82,7 @@ namespace Inventory_Management.Areas.OrderManagement.Controllers
         // GET: CategoryController/Edit/5
         [HttpGet]
         [Route("Edit/{id}")]
+        [Authorize(Roles = "SuperAdmin, Admin")]
         public async Task<IActionResult> Edit(int id)
         {
             _logger.LogInformation("Fetching category with ID {CategoryId} for editing.", id);
@@ -95,6 +100,7 @@ namespace Inventory_Management.Areas.OrderManagement.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Edit/{id}")]
+        [Authorize(Roles = "SuperAdmin, Admin")]
         public async Task<IActionResult> Edit(int id,
             [Bind("CategoryId, CategoryName, CategoryDescription")] Category category)
         {
@@ -144,6 +150,7 @@ namespace Inventory_Management.Areas.OrderManagement.Controllers
         // GET: CategoryController/Delete/5
         [HttpGet]
         [Route("Delete/{id}")]
+        [Authorize(Roles = "SuperAdmin, Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             _logger.LogInformation("Fetching category with ID {CategoryId} for deletion.", id);
@@ -161,6 +168,7 @@ namespace Inventory_Management.Areas.OrderManagement.Controllers
         [Route("Delete/{id}")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "SuperAdmin, Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             _logger.LogInformation("Deleting category with ID {CategoryId}.", id);

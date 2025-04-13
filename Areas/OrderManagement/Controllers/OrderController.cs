@@ -1,6 +1,7 @@
 using Inventory_Management.data;
 using Inventory_Management.Models;
 using Inventory_Management.Areas.OrderManagement.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ namespace Inventory_Management.Areas.OrderManagement.Controllers
 {
     [Area("OrderManagement")]
     [Route("[area]/[controller]/[action]")]
+    [Authorize]
     public class OrderController : Controller
     {
         private readonly InventoryDbContext _context;

@@ -5,11 +5,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Inventory_Management.Areas.OrderManagement.Controllers
 {
     [Area("OrderManagement")]
     [Route("[area]/[controller]/[action]")]
+    [Authorize]
     public class ProductController : Controller
     {
         private readonly InventoryDbContext _context;
@@ -132,6 +134,7 @@ namespace Inventory_Management.Areas.OrderManagement.Controllers
 
         [HttpGet]
         [Route("Create")]
+        [Authorize(Roles = "SuperAdmin, Admin")]
         public async Task<IActionResult> Create()
         {
             _logger.LogInformation("Create GET action called.");
@@ -142,6 +145,7 @@ namespace Inventory_Management.Areas.OrderManagement.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Create")]
+        [Authorize(Roles = "SuperAdmin, Admin")]
         public async Task<IActionResult> Create(Product product)
         {
             _logger.LogInformation("Create POST action called for product: {ProductName}", product.ProductName);
@@ -171,6 +175,7 @@ namespace Inventory_Management.Areas.OrderManagement.Controllers
 
         [HttpGet]
         [Route("Edit/{id:int}")]
+        [Authorize(Roles = "SuperAdmin, Admin")]
         public async Task<IActionResult> Edit(int id)
         {
             _logger.LogInformation("Edit GET action called for product ID: {ProductId}", id);
@@ -190,6 +195,7 @@ namespace Inventory_Management.Areas.OrderManagement.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Edit/{id:int}")]
+        [Authorize(Roles = "SuperAdmin, Admin")]
         public async Task<IActionResult> Edit(int id,
             [Bind("ProductId,ProductName,ProductDescription,ProductPrice,ProductQuantity,LowStockThreshold,CategoryId")]
             Product product)
@@ -237,6 +243,7 @@ namespace Inventory_Management.Areas.OrderManagement.Controllers
 
         [HttpGet]
         [Route("Delete/{id:int}")]
+        [Authorize(Roles = "SuperAdmin, Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             _logger.LogInformation("Delete GET action called for product ID: {ProductId}", id);
@@ -255,6 +262,7 @@ namespace Inventory_Management.Areas.OrderManagement.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Route("Delete/{id:int}")]
+        [Authorize(Roles = "SuperAdmin, Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             _logger.LogInformation("Delete POST action called for product ID: {ProductId}", id);
